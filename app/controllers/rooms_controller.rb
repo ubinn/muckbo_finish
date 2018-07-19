@@ -5,7 +5,8 @@ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.json
   def index
-    @rooms = Room.all
+   @rooms = Room.all
+   @rooms.where(admissions_count: 0).destroy_all
   end
 
   # GET /rooms/1
@@ -119,12 +120,6 @@ class RoomsController < ApplicationController
     redirect_to '/'
   end
 
-  def hashtags
-    tag = Tag.find_by(name: params[:name])
-    @rooms = tag.rooms
-    @tag =tag.name
-  end
-  
   ### 채팅 ###
   def user_exit_room
     p "유저나가기 컨트롤러까지는 옴"
@@ -135,7 +130,7 @@ class RoomsController < ApplicationController
     end
   end
   
-   def is_user_ready
+  def is_user_ready
    if current_user.is_ready?(@room) # 현재 레디상태라면
      render js: "console.log('이미 레디상태'); location.reload();"
    else  # 현재 레디상태가 아니라면
@@ -146,7 +141,7 @@ class RoomsController < ApplicationController
      # if
    end
    
- end
+  end
  
  def chat
    @room_id = @room.id
@@ -159,7 +154,38 @@ class RoomsController < ApplicationController
    @room.update(room_state: true)
    Pusher.trigger("room_#{@room.id}", 'chat_start', {})
  end
+ 
+  def hashtags
+    tag = Tag.find_by(name: params[:name])
+    @rooms = tag.rooms
+    @tag =tag.name
+  end
 
+  def search
+    if params[:hashsearch] and params[:room_type] and params[:food_type]
+      @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").where(room_type: params[:room_type], food_type: params[:food_type]).to_a 
+    elsif params[:food_type] and params[:room_type]
+      @rooms = Room.where(food_type: params[:food_type], room_type: params[:room_type]).to_a
+    elsif params[:hashsearch] and params[:room_type]
+      @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").where(room_type: params[:room_type]).to_a 
+    elsif params[:hashsearch] and params[:food_type]
+      @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").where(food_type: params[:food_type]).to_a 
+    elsif params[:hashsearch]
+      @rooms = Room.where("room_title LIKE ?", "%#{params[:hashsearch]}%").to_a
+    elsif params[:food_type]
+      @rooms = Room.where(food_type: params[:food_type]).to_a
+    elsif params[:room_type]
+      @rooms =  Room.where(room_type: params[:room_type]).to_a
+    end
+  end
+  
+  def quickmatch
+  end
+  
+  def matching
+    @rooms =Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[0].id # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬.
+    redirect_to "/rooms/#{@rooms}"
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

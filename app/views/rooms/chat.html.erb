@@ -1,4 +1,6 @@
 <div class="chat_list">
+  <p>채팅에서 언제, 어디서 만날건지 정하세요!</p>
+  <p>채팅이 만들어 진뒤, 한시간 뒤에 채팅은 없어집니다!</p>
   <% @room.chats.each do |chat| %>
       <p><%= chat.user.email%> : <%= chat.message %><small> <%= chat.created_at %></small></p>
   <%end%>
@@ -7,7 +9,9 @@
   <%= text_field_tag :message %>
 <% end %>
 
+<div class="btn-more">
 <%= link_to 'Back', rooms_path(@room) %>
+</div>
 
 
 <script>
@@ -15,7 +19,7 @@
  
  
   function user_chat(data){
-      //  $('.chat_list').append(`<p>${data.email}님 께서 입장하셨습니다.</p>`);
+
       $('.chat_list').append(`<p>${data.email}: ${data.message} <small>(${data.created_at})</small></p>`)
   }
  

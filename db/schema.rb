@@ -81,11 +81,14 @@ ActiveRecord::Schema.define(version: 20180718081707) do
     t.datetime "locked_at"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.string   "nickname"
-    t.string   "major"
+    t.string   "nickname",               default: "", null: false
+    t.string   "major",                  default: "", null: false
     t.string   "another_major"
     t.string   "sex"
+    t.string   "phone",                  default: "", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["nickname"], name: "index_users_on_nickname", unique: true
+    t.index ["phone"], name: "index_users_on_phone", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

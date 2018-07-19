@@ -1,38 +1,40 @@
-<% if user_signed_in? %>
-<%= current_user.nickname %> / <%= link_to '로그아웃', destroy_user_session_path, method: :delete %>
-<% else %>
-<%= link_to '로그인', new_user_session_path %>
-<% end %>
+<!--<1% if user_signed_in? %>-->
+<!--<1%= current_user.nickname %> / <1%= link_to '로그아웃', destroy_user_session_path, method: :delete %>-->
+<!--<1% else %>-->
+<!--<1%= link_to '로그인', new_user_session_path %>-->
+<!--<1% end %>-->
 
-		<section class="page-title style1 parallax parallax1">
+	<section class="page-title style1 parallax parallax1">
 			<div class="container">
 				<div class="row">
 					<div class="col">			
-					<div class="page-title-heading" style="font-family:Poor Story">
+					<div class="page-title-heading" style="font-family:Gugi">
 							같이 먹자!</div>
-						<div class="wrap-box-search style1 mb-3" >
-							<form action="#" method="get" accept-charset="utf-8">
+						<div class="wrap-box-search style1 mb-3">
+							<form action="/search" method="get" accept-charset="utf-8">
 								<span>
-									<input type="text" placeholder="해시태그검색" name="search">
+									<input type="text" placeholder="방검색" name="hashsearch">
 								</span>
-								<span class="categories">
+								<span class="categories" >
 									<span class="ti-angle-down"></span>
 									<select name="food_type">
-										<option value="1">한식</option>
-										<option value="2">중식</option>
-										<option value="3">일식</option>
-										<option value="4">양식</option>
-										<option value="5">분식</option>
-										<option value="6">아시안</option>
-										<option value="7">간편식</option>
-										<option value="8">육식</option>
+										<option value=nil disabled selected>어떤 음식을 먹고싶은가요?</option>
+										<option value="한식">한식</option>
+										<option value="중식">중식</option>
+										<option value="일식">일식</option>
+										<option value="양식">양식</option>
+										<option value="분식">분식</option>
+										<option value="아시안">아시안</option>
+										<option value="간편식">간편식</option>
+										<option value="육식">육식</option>
 									</select>
 								</span>
 								<span class="categories">
 									<span class="ti-angle-down"></span>
-									<select name="categories">
-										<option value="1">정보교류</option>
-										<option value="2">혼밥매칭</option>
+									<select name="room_type">
+										<option value="" disabled selected>왜 만나실건가요?</option>
+										<option value="정보교류">정보교류</option>
+										<option value="먹방">혼밥매칭</option>
 									</select>
 								</span>
 								<div class="input-group-append">
@@ -47,7 +49,7 @@
 		</section><!-- /.page-title -->
 		
 		
-		<section class="style3 flat-row">
+			<section class="style3 flat-row">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">			
@@ -59,9 +61,11 @@
 						</div><!-- /.filter-result -->
 					</div><!-- /.col-md-12 -->
 				</div><!-- /.row -->
-				
+		</div>
+		</section>
+		
+		<section class="room_list" style="margin-left: 15px;margin-right: 15px;">
 					<% @rooms.reverse.each do |room| %>
-			<div class="room_list">
 				<div class="style3" style= "font-family:Do Hyeon">
 					<div= "row">
 						<div class="col-sx-12">
@@ -101,7 +105,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="btn-more">
-								<a href="#" title="">Show More</a>
+								<a href="/quickmatch" title="">빠른 매칭</a>
 							</div>
 						</div>
 					</div><!-- /.row -->
@@ -110,10 +114,14 @@
 		</section><!-- /.flat-imagebox style3 -->
 		
 <script>
+	function user_joined(data){
+		var current = $(`.current${data.room_id}`);
+		current.text(parseInt(current.text())+1);
+	}
+	
 	function room_created(data){
 		$('.room_list').prepend(`	
 		<div class="style3" style= "font-family:Do Hyeon">
-					<div= "row">
 						<div class="col-sx-12">
 							<div class="imagebox style2">
 								<div class="container ">
@@ -121,7 +129,7 @@
 									  <div class="check${data.id}"
 										<div>
 											<a href ="/rooms/${data.id}" ><font size="5">${data.room_title}</font></a>
-											<span style="float:right;font-family:Do Hyeon"><font size="5"><span class="current${data.id}">${data.admissions_count}</span> / ${data.max_count}</font></span>
+											<span style="float:right;font-family:Do Hyeon"><font size="5"><span class="current${data.id}"> 1 </span> / ${data.max_count}</font></span>
 										</div>
 										
 										<div style ="font-family:Do Hyeon">
@@ -135,19 +143,14 @@
 										 		<%#= link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>
 										 	<%# end %></span>
 										 </div>-->
-										 
 									</div><!-- /.box-content -->
 								</div><!-- /.box-imagebox -->
 							</div><!-- /.imagebox style2 -->
 						</div><!-- /.col-sm-12 -->
-					</div>
 			</div>
 		`);
 	}
-	function user_joined(data){
-		var current = $(`.current${data.room_id}`);
-		current.text(parseInt(current.text())+1);
-	}
+	
 	function user_exit(data){
 		var current = $(`.current${data.room_id}`);
 	    current.text(parseInt(current.text())-1);

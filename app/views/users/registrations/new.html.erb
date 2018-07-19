@@ -5,51 +5,72 @@
 					<div class="col-lg-2">
 					</div><!-- /.col-lg-2 -->
 					<div class="col-lg-4 col-sm-6">
-						<div class="login-form style2" style="font-family:Poor Story">
-							<h3 style="font-family:Poor Story">회원가입</h3>
+						<div class="login-form style2" style="font-family:Nanum Gothic Coding">
+							<h3 style="font-family:Nanum Gothic Coding">회원가입</h3>
 						    
 							<!--<form action="/create" method="POST" accept-charset="utf-8">-->
 							<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-								<%= resource.errors.full_messages.join('') %>
+								<% if resource.errors.messages[:nickname][1] == "닉네임이 이미 존재합니다." %>
+									<h6>해당 닉네임이 이미 존재합니다.</h6>
+								<% end %>
+								<% if resource.errors.messages[:email][0] == "has already been taken" %>
+									<h6>해당 이메일이 존재합니다.</h6>
+								<% end %>
+								<% if resource.errors.messages[:email][0] == "can't be blank" %>
+									<h6>이메일이 비어있습니다.</h6>
+								<% end %>
+								<% if resource.errors.messages[:password][0] == "can't be blank" %>
+									<h6>비밀번호가 비어있습니다.</h6>
+								<% end %>
+								<% if resource.errors.messages[:password_confirmation][0] == "doesn't match Password" %>
+									<h6>비밀번호가 일치하지 않습니다.</h6>
+								<% end %>
 							   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							   <br>
 								<div class="wrap-login">
-									<%= f.label :email %><br />
-    								<%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+									<%= f.label :"학교이메일" %>
+    								<%= f.email_field :email, autofocus: true, autocomplete: "email", required: true  %>
 								</div>
 								<div class="wrap-login">
-									<%= f.label :password %>
+									<%= f.label :"비밀번호", required: true  %>
 								    <% if @minimum_password_length %>
-								    <em>(<%= @minimum_password_length %> characters minimum)</em>
+								    <em>(<%= @minimum_password_length %> 글자 이상이여야 합니다.)</em>
 								    <% end %>
-								    <%= f.password_field :password, autocomplete: "off" %>
+								    <%= f.password_field :password, autocomplete: "off", required: true  %>
 								</div>
 								<div class="wrap-login">
-								    <%= f.label :password_confirmation %>
+								    <%= f.label :"비밀번호 확인" %>
     								<%= f.password_field :password_confirmation, autocomplete: "off" %>
-								<br/>
+								
     							</div>
 								<div class="wrap-login">
-									<%= f.label :nickname %>
-									<%= f.text_field :nickname, autofocus: true, autocomplete: "off" %>
+									<%= f.label :"닉네임" %>
+									<%= f.text_field :nickname, autofocus: true, autocomplete: "off", required: true %>
 								</div>
 								<div class="wrap-login">
-									<%= f.label :major %>
-									<%= f.text_field :major, autofocus: true, autocomplete: "off" %>
+									<%= f.label :"핸드폰번호" %>
+									<%= f.text_field :phone, autofocus: true, autocomplete: "off", required: true %>
 								</div>
 								<div class="wrap-login">
-									<%= f.label :another_major %>
-									<%= f.text_field :another_major, autofocus: true, autocomplete: "off" %>
+									<%= f.label :"주전공" %>
+									<%= f.text_field :major, autofocus: true, autocomplete: "off", required: true %>
 								</div>
 								<div class="wrap-login">
-									<%= f.select(:sex) do %>
-									  <% [['남', 'man'], ['여', 'woman']].each do |c| -%>
-									    <%= content_tag(:option, c.first, value: c.last) %>
-									  <% end %>
-									<% end %>
+									<%= f.label :"연계/복수/부전공" %>
+									<%= f.text_field :another_major, autofocus: true, autocomplete: "off", required: true %>
 								</div>
-			
-								<div class="actions">
-								  <%= f.submit "가입하기" %>
+								<div class="wrap-login" >
+									<%= f.label :"성별" %>
+									<!--<1%= f.select(:sex), :html => { :style="color: white;border: 1px solid #ffffff;border-radius: 5px;font-family:Poor Story" } do %>-->
+									<!--  <1% [['남', 'man'], ['여', 'woman']].each do |c| -%>-->
+									<!--    <1%= content_tag(:option, c.first, value: c.last) %>-->
+									<!--  <1% end %>-->
+									<%= f.select :sex, [['성별', 'null'], ['남', 'man'], ['여', 'woman']], {:disabled => 'null', :selected => 'null'}, {:style =>"color:white;border:1px solid #ffffff;border-radius:5px;font-family:Nanum Gothic Coding"} %>  
+							
+								</div>
+								<br/>
+								<div class="actions center" >
+								  <%= f.submit "가입하기",style: "color:white" %>
 								</div>
 							<% end %>
 							<!--</form>--><!-- /form -->
@@ -61,4 +82,3 @@
 			</div><!-- /.container -->
 			<div class="overlay"></div>
 		</section><!-- /.flat-login style2 -->
-<%= render "devise/shared/links" %>

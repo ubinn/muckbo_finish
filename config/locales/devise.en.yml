@@ -3,39 +3,39 @@
 en:
   devise:
     confirmations:
-      confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
+      confirmed: "이메일이 정상적으로 인증되었습니다. 로그인을 완료해주세요."
+      send_instructions: "이메일로 인증메일을 전송하였습니다. 이메일을 통해 인증을 완료해주세요."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
     failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
-      invalid: "Invalid %{authentication_keys} or password."
+      already_authenticated: "이미 가입되어 있습니다."
+      inactive: "인증이 완료되지 않았습니다. 인증을 완료해주세요."
+      invalid: "유효하지 않은 %{authentication_keys}이거나 패스워드가 틀립니다."
       locked: "Your account is locked."
       last_attempt: "You have one more attempt before your account is locked."
       not_found_in_database: "가입하지 않은 %{authentication_keys} 이거나 패스워드가 틀립니다."
       timeout: "Your session expired. Please sign in again to continue."
       unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
+      unconfirmed: "이메일을 확인해주세요."
     mailer:
       confirmation_instructions:
         subject: "먹보와 함께하세요!"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "먹보 비밀번호 찾기 서비스 입니다."
       unlock_instructions:
         subject: "Unlock instructions"
       email_changed:
         subject: "Email Changed"
       password_change:
-        subject: "Password Changed"
+        subject: "비밀번호가 변경되었습니다."
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
     passwords:
       no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
-      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      send_instructions: "이메일로 인증메일을 전송하였습니다. 이메일을 통해 인증을 완료해주세요."
       send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
       updated: "Your password has been changed successfully. You are now signed in."
-      updated_not_active: "Your password has been changed successfully."
+      updated_not_active: "비밀번호가 정상적으로 변경되었습니다."
     registrations:
       destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
       signed_up: "Welcome! You have signed up successfully."
@@ -46,10 +46,10 @@ en:
       updated: "Your account has been updated successfully."
     sessions:
       signed_in: "Signed in successfully."
-      signed_out: "Signed out successfully."
-      already_signed_out: "Signed out successfully."
+      signed_out: "정상적으로 로그아웃 하였습니다."
+      already_signed_out: "정상적으로 로그아웃 하였습니다.."
     unlocks:
-      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
+      send_instructions: "이메일로 인증메일을 전송하였습니다. 이메일을 통해 인증을 완료해주세요."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
   errors:
@@ -62,3 +62,4 @@ en:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+
