@@ -5,8 +5,8 @@ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.json
   def index
-   @rooms = Room.all
-   @rooms.where(admissions_count: 0).destroy_all
+    @rooms = Room.page(params[:page])
+    @rooms.where(admissions_count: 0).destroy_all
   end
 
   # GET /rooms/1
@@ -45,7 +45,10 @@ class RoomsController < ApplicationController
   # POST /rooms.json
   def create
    @room = Room.new(room_params)
+   @room.meet_time_end = @room.start_time_hour.to_i + 1
    @room.master_id = current_user.email
+   
+
    
    respond_to do |format|
       if @room.save
@@ -99,18 +102,10 @@ class RoomsController < ApplicationController
   def log_in
     # 유저가 입력한 ID, PW를 바탕으로
     # 실제로 로그인이 이루어지는 곳
-    # id = params[:email]
-    # pw = params[:password]
-    # user = User.find_by_user_id(id)
-    # if !user.nil? and user.password.eql?(pw)
-      # 해당 user_id로 가입한 유저가 있고, 패스워드도 일치하는 경우
-      # session[:current_user] = user.id
     if user_signed_in?
       redirect_to '/'
     else
       # 가입한 user_id가 없거나, 패스워드가 틀린경우
-      # flash[:error] = "가입된 유저가 아니거나, 비밀번호가 틀립니다."
-      # flash[:error]
       redirect_to '/users/sign_in'
     end
   end
@@ -143,17 +138,22 @@ class RoomsController < ApplicationController
    
   end
  
- def chat
-   @room_id = @room.id
-   p "으쌰"
+  def chat
+    @room_id = @room.id
+    p "으쌰"
     @room.chats.create(user_id: current_user.id, message: params[:message])
- end
+  end
  
- def open_chat
-   p "오픈챗 됬다."
-   @room.update(room_state: true)
-   Pusher.trigger("room_#{@room.id}", 'chat_start', {})
- end
+  def open_chat
+  p "오픈챗 됬다."
+    @room.update(room_state: true)
+    @room.admissions.each do |admission|
+        UserChatLog.create(room_title: @room.room_title, room_id: @room.id, user_id: admission.user_id, nickname: admission.user.nickname, chat_date: admission.updated_at.to_date )
+    end
+    p "admission의 힘"
+    Pusher.trigger("room_#{@room.id}", 'chat_start', {})
+    RoomDestroyJob.set(wait: 1.hours).perform_later(@room.id)
+  end
  
   def hashtags
     tag = Tag.find_by(name: params[:name])
@@ -183,9 +183,21 @@ class RoomsController < ApplicationController
   end
   
   def matching
-    @rooms =Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[0].id # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬.
+    @rooms =Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[0].id 
+    # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬, 그후 id만 추출
     redirect_to "/rooms/#{@rooms}"
   end
+
+  def report
+    @report = Report.new
+  end
+ 
+ def report_create
+    p "신고받음"
+    @report = Report.create(report_reason: params[:report_reason], report_description: params[:report_description])
+    @report.user_id = current_user.id
+    @report.user_email = current_user.email
+ end
 
   private
     # Use callbacks to share common setup or constraints between actions.

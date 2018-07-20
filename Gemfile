@@ -5,12 +5,18 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'toastr_rails'
+gem 'kaminari'
+gem 'bootstrap4-kaminari-views'
+
 #bootstrap 3
 gem 'bootstrap-sass'
+
 gem 'simple_form'
+
 gem 'figaro'
+
 gem 'rails_admin'
+gem 'rails_admin_history_rollback'
 # authentication
 gem 'devise'
 gem 'font-awesome-rails'

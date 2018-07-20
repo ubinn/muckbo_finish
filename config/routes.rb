@@ -2,9 +2,13 @@ Rails.application.routes.draw do
     
   get '/search' => 'rooms#search'
   
+  post '/report' => 'rooms#report_create'
+  get '/report' => 'rooms#report'
+
   devise_for :users, :controllers => { registrations: 'users/registrations' }
   
   mount RailsAdmin::Engine => '/bomuck', as: 'rails_admin'
+  
   root 'rooms#index'
   resources :rooms do 
     member do
@@ -20,6 +24,5 @@ Rails.application.routes.draw do
   
   get '/quickmatch' => 'rooms#quickmatch'
   get '/matching'=>'rooms#matching'
-  
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
 end

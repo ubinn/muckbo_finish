@@ -51,7 +51,7 @@ class Room < ApplicationRecord
  end
     
 
-
+# 해시 태그 
 
  def update_hashtag_from_body
    room = Room.find_by(id: self.id)
@@ -77,7 +77,7 @@ class Room < ApplicationRecord
  end
 
 
-
+ paginates_per 3
 
 
 

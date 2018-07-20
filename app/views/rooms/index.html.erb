@@ -97,7 +97,14 @@
 						</div><!-- /.col-sm-12 -->
 					</div>
 			</div>
-						<% end %>
+			<% end %>
+
+		
+		<div class="text-center">				
+			<%= paginate @rooms, theme: 'twitter-bootstrap-4' %>
+		</div>
+
+		
 
 		</section>
 		<section class="style3 flat-row">
@@ -111,7 +118,10 @@
 					</div><!-- /.row -->
 				</div>
 			</div><!-- /.container -->
+
 		</section><!-- /.flat-imagebox style3 -->
+		
+		
 		
 <script>
 	function user_joined(data){

@@ -20,7 +20,7 @@
  
   function user_chat(data){
 
-      $('.chat_list').append(`<p>${data.email}: ${data.message} <small>(${data.created_at})</small></p>`)
+      $('.chat_list').append(`<p>${data.email}: ${data.message}</p>`)
   }
  
    var pusher = new Pusher("<%= ENV["Pusher_key"]%>", {
