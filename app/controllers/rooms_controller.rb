@@ -15,7 +15,7 @@ class RoomsController < ApplicationController
    
     respond_to do |format|
       if @room.chat_started?
-       format.html { render 'chat' }
+       format.html { render 'chat', layout: false }
       else
         if @room.max_count > @room.admissions_count
           @room.user_admit_room(current_user) unless current_user.joined_room?(@room)  
