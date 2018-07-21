@@ -15,20 +15,20 @@
 
   <% @room.chats.each do |chat| %>
    <% if chat.user_id == current_user.id %>
-      <div class="from-me">
-        <p><small><%= chat.user.nickname %></small>
-        <br/>
-        <small><%= chat.message %></small></p>
-      </div>
-    <div class="clear"></div>
-    <% else %>
-      <div class="from-them">
-        <p><small><%= chat.user.nickname %></small>
-        <br/>
-        <small><%= chat.message %></small></p>
-      </div>
-    <div class="clear"></div>
-    <% end %>
+    <div class="from-me">
+      <p><small><%= chat.user.nickname %></small>
+      <br/>
+      <small><%= chat.message %></small></p>
+    </div>
+  <div class="clear"></div>
+  <% else %>
+    <div class="from-them">
+      <p><small><%= chat.user.nickname %></small>
+      <br/>
+      <small><%= chat.message %></small></p>
+    </div>
+  <div class="clear"></div>
+  <% end %>
   <% end %>
   </section>
   <%= form_tag("/rooms/#{@room.id}/chat") do %>
@@ -37,7 +37,7 @@
 </body>
 
 <script>
-  var msg = $('#message').val('');
+    $('#message').val('');
  
   function user_chat(data){
       $('.chat_list').append(`<p><small>${chat.nickname}</small><br/><small>${chat.message}</small></p>`)

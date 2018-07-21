@@ -2,6 +2,8 @@ class RoomsController < ApplicationController
   before_action :set_room, only: [:show, :edit, :update, :destroy, :user_exit_room, :is_user_ready, :chat, :open_chat]
   before_action :authenticate_user!, except: [:index]
 
+  layout "chat", only: [:chat, :open_chat]
+
   # GET /rooms
   # GET /rooms.json
   def index
@@ -15,7 +17,7 @@ class RoomsController < ApplicationController
    
     respond_to do |format|
       if @room.chat_started?
-       format.html { render 'chat', layout: false }
+       format.html { render 'chat', layout: false}
       else
         if @room.max_count > @room.admissions_count
           @room.user_admit_room(current_user) unless current_user.joined_room?(@room)  
@@ -45,7 +47,6 @@ class RoomsController < ApplicationController
   # POST /rooms.json
   def create
    @room = Room.new(room_params)
-   @room.meet_time_end = @room.start_time_hour.to_i + 1
    @room.master_id = current_user.email
    
 
@@ -145,14 +146,14 @@ class RoomsController < ApplicationController
   end
  
   def open_chat
-  p "오픈챗 됬다."
-    @room.update(room_state: true)
-    @room.admissions.each do |admission|
-        UserChatLog.create(room_title: @room.room_title, room_id: @room.id, user_id: admission.user_id, nickname: admission.user.nickname, chat_date: admission.updated_at.to_date )
-    end
-    p "admission의 힘"
-    Pusher.trigger("room_#{@room.id}", 'chat_start', {})
-    RoomDestroyJob.set(wait: 1.hours).perform_later(@room.id)
+     p "오픈챗 됬다."
+   @room.update(room_state: true)
+   @room.admissions.each do |admission|
+      UserChatLog.create(room_title: @room.room_title, room_id: @room.id, user_id: admission.user_id, nickname: admission.user.nickname, chat_date: admission.updated_at.to_date )
+   end
+   p "admission의 힘"
+   Pusher.trigger("room_#{@room.id}", 'chat_start', {})
+   RoomDestroyJob.set(wait: 1.hours).perform_later(@room.id)
   end
  
   def hashtags

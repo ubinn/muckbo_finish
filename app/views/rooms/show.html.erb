@@ -130,7 +130,7 @@
    		$('.room_user_list').prepend(`
     	 <tr class="user-${data.user_id}">
       		 <td colspan="8" style="padding-right: 10px;">${data.email}</td>
-      		 <td colspan="8"><span class="current${data.room_id}">${ data.ready_state}</span></td>
+      		 <td colspan="8"><span class="current${data.room_id}">${data.ready_state}</span></td>
      	 </tr>`);
  		}
       function user_ready(data){
