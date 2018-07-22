@@ -1,55 +1,8 @@
-<%= stylesheet_link_tag "chat" %>
-<%= javascript_include_tag "chat" %>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<div class= "chat_list_wrap">
-  <div class="header" style="width: 100%;z-index:1">
-    <%=@room.room_title%>
-  </div>
-</div>  
 
+  <head>
+    <title>Muckbo</title>
+    <%= csrf_meta_tags %>
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+  </head>
 
-<body style="margin:0px;">
-
-  <section class="chat_list" style="margin-top:0px;margin-left:8px;margin-right:8px;">
-
-  <% @room.chats.each do |chat| %>
-   <% if chat.user_id == current_user.id %>
-    <div class="from-me">
-      <p><small><%= chat.user.nickname %></small>
-      <br/>
-      <small><%= chat.message %></small></p>
-    </div>
-  <div class="clear"></div>
-  <% else %>
-    <div class="from-them">
-      <p><small><%= chat.user.nickname %></small>
-      <br/>
-      <small><%= chat.message %></small></p>
-    </div>
-  <div class="clear"></div>
-  <% end %>
-  <% end %>
-  </section>
-  <%= form_tag("/rooms/#{@room.id}/chat") do %>
-    <%= text_field_tag :message, "", class: "textarea", placeholder: "내용을 입력하세요!", style:"padding-left: 1px;padding-right: 1px;"%>
-  <% end %>    
-</body>
-
-<script>
-    $('#message').val('');
- 
-  function user_chat(data){
-      $('.chat_list').append(`<p><small>${chat.nickname}</small><br/><small>${chat.message}</small></p>`)
-  }
- 
-  var pusher = new Pusher("<%= ENV["Pusher_key"]%>", {cluster: "<%= ENV["Pusher_cluster"] %>",encrypted: true});
- 
-  var channel = pusher.subscribe("room_<%=@room.id%>");
-
-  channel.bind('chat', function(data){
-       user_chat(data);
-       console.log("채팅중입니다.")
-  });
-
-</script>
+    <%= yield %>

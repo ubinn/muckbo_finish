@@ -184,9 +184,15 @@ class RoomsController < ApplicationController
   end
   
   def matching
-    @rooms =Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[0].id 
-    # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬, 그후 id만 추출
-    redirect_to "/rooms/#{@rooms}"
+    # 해당하는 방이 없을 때, alert를 띄우던지 아니면 해당하는 방이 없다는 화면으로 보내주던지...
+    if !Room.where(room_type: "먹방").to_a[0].nil?
+      @rooms = Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[0].id 
+      # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬, 그후 id만 추출
+      redirect_to "/rooms/#{@rooms}"
+    else
+      @no_match = "매칭되는 방이 없어요..."
+      redirect_to "/quickmatch"
+    end  
   end
 
   def report

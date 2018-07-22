@@ -1,134 +1,211 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
 
-.chat_list_wrap {
-  list-style: none;
-}
-.chat_list_wrap .header {
-  position : fixed;
-  font-size: 14px;
-  padding: 15px 0;
-  background: -webkit-linear-gradient(-90deg, rgba(76, 161, 175, 0.9), rgba(44, 62, 80, 0.9));
-  color: white;
-  text-align: center;
-  font-family: "Josefin Sans", sans-serif;
+$green: #86BB71;
+$blue: #94C2ED;
+$orange: #E38968;
+$gray: #92959E;
 
+*, *:before, *:after {
+  box-sizing: border-box;
 }
 
 body {
-	font-family: "Helvetica Neue";
-	font-size: 20px;
-	font-weight: normal;
+  
+  background: #F2F5F8;
+  font: 14px/20px "Lato", Arial, sans-serif;
+  padding: 0 0;
+  color: white;
+  
 }
 
-section {
-	max-width: 100%;
-	margin: 50px auto;
+.container {
+  margin: 0 auto;
 
-	div {
-		max-width: 255px;
-		word-wrap: break-word;
-		margin-bottom: 12px;
-    line-height: 24px;
-    &:after {
-      content: "";
-      display: table;
-      clear: both;
+  width: 100%;
+  background: #444753;
+  border-radius: 5px;
+}
+
+.chat {
+  
+  float:left;
+  background: #F2F5F8;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  width: 100%;
+  color: #434651;
+  
+  .chat-header {
+    padding: 15px;
+    border-bottom: 2px solid white;
+    
+    img {
+      float: left;
     }
-	}
-}
-
-.clear {clear: both}
-.from-me {
-	position:relative;
-	padding:10px 20px;
-	color:white; 
-	background:#0B93F6;
-	border-radius:25px;
-	float: right;
-		
-	&:before {
-		content:"";
-		position:absolute;
-		z-index:-1;
-		bottom:-2px;
-		right:-7px;
-		height:20px;
-		border-right:20px solid #0B93F6;
-		border-bottom-left-radius: 16px 14px;
-		-webkit-transform:translate(0, -2px);
-	}
-
-	&:after {
-		content:"";
-		position:absolute;
-		z-index:1;
-		bottom:-2px;
-		right:-56px;
-		width:26px;
-		height:20px;
-		background:white;
-		border-bottom-left-radius: 10px;
-		-webkit-transform:translate(-30px, -2px);
-	}
-}
-.from-them {
-	position:relative;
-	padding:10px 20px;
-	background:#E5E5EA;
-	border-radius:25px;
-	color: black;
-  float: left;
-		
-	&:before {
-		content:"";
-		position:absolute;
-		z-index:2;
-		bottom:-2px;
-		left:-7px;
-		height:20px;
-		border-left:20px solid #E5E5EA;
-		border-bottom-right-radius: 16px 14px;
-		-webkit-transform:translate(0, -2px);
-	}
-
-	&:after {
-		content:"";
-		position:absolute;
-		z-index:3;
-		bottom:-2px;
-		left:4px;
-		width:26px;
-		height:20px;
-		background:white;
-		border-bottom-right-radius: 10px;
-		-webkit-transform:translate(-30px, -2px);
-	}
-}
-
-input.textarea {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    
+    .chat-about {
+      float: left;
+      padding-left: 10px;
+      margin-top: 6px;
+    }
+    
+    .chat-with {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    
+    .chat-num-messages {
+      color: $gray;
+    }
+    
+    .fa-star {
+      float: right;
+      color: #D8DADF;
+      font-size: 20px;
+      margin-top: 12px;
+    }
+  }
+  
+  .chat-history {
+    padding: 30px 30px 20px;
+    border-bottom: 0px;
+    overflow-y: scroll;
     width: 100%;
-    height: 50px;
-    z-index: 99;
-    background: #fafafa;
-    border: none;
-    outline: none;
-    padding-left: 55px;
-    padding-right: 55px;
-    color: #666;
-    font-weight: 400;
+    height: 80%;
+    
+    .message-data {
+      margin-bottom: 15px;
+    }
+    
+    .message-data-time {
+      color: lighten($gray, 8%);
+      padding-left: 6px;
+    }
+    
+    .message-data-name {
+      font-size: 15px;
+      left: -50px;
+    } 
+    
+    .message {      
+      color: white;
+      padding: 10px 8px;
+      line-height: 26px;
+      font-size: 15px;
+      border-radius: 7px;
+      margin-bottom: 20px;
+      width: 90%;
+      position: relative;
+      right: -10;
+      
+      &:after {
+        bottom: 100%;
+        left: 7%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-bottom-color: $green;
+        border-width: 10px;
+        margin-left: -10px;
+      }
+    }
+    
+    .my-message {
+      background: $green;
+      left: -50
+    }
+    
+    .other-message {
+      background: $blue;
+  
+      
+      &:after {
+        border-bottom-color: $blue;
+        left: 93%;
+      }
+    }
+    
+  }
+  
+  .chat-message {
+    background: #F2F5F8;
+    padding: 15px;
+    
+    textarea {
+      width: 93%;
+      border: none;
+      padding: 10px 20px;
+      font: 14px/22px "Lato", Arial, sans-serif;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      resize: none;
+      height: 60px;
+      background: white;
+    }
+    
+    .fa-file-o, .fa-file-image-o {
+      font-size: 16px;
+      color: gray;
+      cursor: pointer;
+      
+    }
+    
+    button {
+      float: right;
+      color: $blue;
+      font-size: 16px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      background: #F2F5F8;
+      height: 35px;
+      
+      &:hover {
+        color: darken($blue, 7%);
+      }
+    }
+  }
 }
 
-/* The sticky class is added to the header with JS when it reaches its scroll position */
-.sticky {
-  position: fixed;
-  top: 0;
-  width: 100%
+.online, .offline, .me {
+    margin-right: 3px;
+    font-size: 10px;
+  }
+  
+.online {
+  color: $green;
+}
+  
+.offline {
+  color: $orange;
 }
 
-/* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
-.sticky + .section {
-  padding-top: 102px;
+.me {
+  color: $blue;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.float-right {
+  float: right;
+}
+
+.clearfix:after {
+  
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
 }
