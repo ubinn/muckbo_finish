@@ -13,6 +13,8 @@ gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'figaro'
 
+gem 'toastr_rails'
+
 gem 'rails_admin'
 gem 'rails_admin_history_rollback'
 # authentication

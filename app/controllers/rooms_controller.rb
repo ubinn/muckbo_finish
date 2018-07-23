@@ -7,7 +7,7 @@ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.json
   def index
-    @rooms = Room.page(params[:page])
+    @rooms = Room.where(room_state: false).all
     @rooms.where(admissions_count: 0).destroy_all
   end
 
@@ -186,19 +186,31 @@ class RoomsController < ApplicationController
     # 해당하는 방이 없을 때, alert를 띄우던지 아니면 해당하는 방이 없다는 화면으로 보내주던지...
     if !Room.where(room_type: "먹방").to_a[0].nil?
       match_num = 0
-      while match_num <= Room.where(room_type: "먹방").to_a.length
-        if Room.where(room_type: "먹방").order(:admissions_count).reverse[match_num].admissions_count < Room.where(room_type: "먹방").order(:admissions_count).reverse[match_num].max_count
-          @rooms = Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[match_num].id 
+      if Room.where(room_type: "먹방").size > 1
+        while match_num < Room.where(room_type: "먹방").to_a.length
+          p Room.where(room_type: "먹방")
+          if Room.where(room_type: "먹방").order(admissions_count: :desc)[match_num].admissions_count < Room.where(room_type: "먹방").order(admissions_count: :desc)[match_num].max_count
+            @rooms = Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[match_num].id 
+            # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬, 그후 id만 추출
+            redirect_to "/rooms/#{@rooms}"
+            breaK;
+          else
+            match_num += 1
+          end
+        end
+      else
+        if Room.where(room_type: "먹방")[0].admissions_count == Room.where(room_type:"먹방")[0].max_count
+          flash[:alert] = "매치할 방이 없습니다..방을 직접 만들거나 잠시후 다시 시도해주세요!"
+          redirect_to quickmatch_path
+        else
+          @rooms = Room.where(room_type: "먹방")[0].id 
           # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬, 그후 id만 추출
           redirect_to "/rooms/#{@rooms}"
-          break
-        else
-          match_num += 1
         end
       end
     else
-      render js: "alert('매칭되는 방이 없어요...');"
-      redirect_to "/quickmatch"
+      flash[:alert] = "매치할 방이 없습니다..방을 직접 만들거나 잠시후 다시 시도해주세요!"
+      redirect_to quickmatch_path
     end  
   end
 
