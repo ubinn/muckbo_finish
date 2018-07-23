@@ -13,4 +13,6 @@ Rails.application.config.assets.precompile += %w( rooms.js
                                                   devise/sessions.js
                                                   devise/sessions.css
                                                   chat.js
-                                                  chat.scss)
+                                                  chat.scss
+                                                  users/registrations.js
+                                                  users/registrations.css)
