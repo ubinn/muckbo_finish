@@ -200,7 +200,7 @@ class RoomsController < ApplicationController
         end
       else
         if Room.where(room_type: "먹방")[0].admissions_count == Room.where(room_type:"먹방")[0].max_count
-          flash[:alert] = "매치할 방이 없습니다..방을 직접 만들거나 잠시후 다시 시도해주세요!"
+          flash[:danger] = "매치할 방이 없습니다..방을 직접 만들거나 잠시후 다시 시도해주세요!"
           redirect_to quickmatch_path
         else
           @rooms = Room.where(room_type: "먹방")[0].id 
@@ -209,7 +209,7 @@ class RoomsController < ApplicationController
         end
       end
     else
-      flash[:alert] = "매치할 방이 없습니다..방을 직접 만들거나 잠시후 다시 시도해주세요!"
+      flash[:danger] = "매치할 방이 없습니다..방을 직접 만들거나 잠시후 다시 시도해주세요!"
       redirect_to quickmatch_path
     end  
   end

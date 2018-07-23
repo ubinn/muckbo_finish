@@ -12,8 +12,7 @@ gem 'pusher'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'figaro'
-
-gem 'toastr_rails'
+gem 'toastr-rails'
 
 gem 'rails_admin'
 gem 'rails_admin_history_rollback'

@@ -14,7 +14,8 @@
   </head>
 
   <body>
-    <%= render 'shared/nav' %>
+    <%= render 'shared/nav' %> 
+    <%= render :partial => 'shared/flash', :flash => flash %>	
     <%= yield %>
     <%= render 'shared/footer' %>
     <%= yield 'javascript_content' %>
