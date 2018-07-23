@@ -8,7 +8,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col">			
-					<div class="page-title-heading" style="font-family:Gugi">
+					<div class="page-title-heading" style="font-family:Binggrae-Bold">
 							같이 먹자!</div>
 						<div class="wrap-box-search style1 mb-3">
 							<form action="/search" method="get" accept-charset="utf-8">
@@ -53,11 +53,11 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">			
-						<div class="filter-result style2" style="font-family:Nanum Gothic Coding">
+						<div class="filter-result style2" style="font-family:Binggrae">
 							<div class="result">
-								<span style="font-family:Do Hyeon"><font size="4">현재 <%= @rooms.count %>개의 방이 있습니다!</font></span> <!--검색된 방의 갯수로 바꾸기--> 
+								<span style="font-family:Binggrae"><font size="4">현재 <%= @rooms.count %>개의 방이 있습니다!</font></span> <!--검색된 방의 갯수로 바꾸기--> 
 							</div>
-								<span style="float:right;font-family:Do Hyeon"><font size="4"><%=link_to '방만들기', new_room_path %></font></span>
+								<span style="float:right;font-family:Binggrae"><font size="4"><%=link_to '방만들기', new_room_path %></font></span>
 						</div><!-- /.filter-result -->
 					</div><!-- /.col-md-12 -->
 				</div><!-- /.row -->
@@ -66,7 +66,7 @@
 		
 		<section class="room_list" style="margin-left: 15px;margin-right: 15px;">
 					<% @rooms.reverse.each do |room| %>
-				<div class="style3" style= "font-family:Do Hyeon">
+				<div class="style3" style= "font-family:Binggrae">
 					<div= "row">
 						<div class="col-sx-12">
 							<div class="imagebox style2">
@@ -77,15 +77,15 @@
 									  <div class="check<%=room.id%>"
 										<div>
 											<a href ="/rooms/<%=room.id%>" ><font size="5"><%= room.room_title %></font></a>
-											<span style="float:right;font-family:Do Hyeon"><font size="5"><span class="current<%= room.id %>"><%=room.admissions_count%></span> / <%=room.max_count%></font></span>
+											<span style="float:right;font-family:Binggrae"><font size="5"><span class="current<%= room.id %>"><%=room.admissions_count%></span> / <%=room.max_count%></font></span>
 										</div>
 										
-										<div style ="font-family:Do Hyeon">
-											<span style="color:black" class ="col"><font style="font-family:Do Hyeon" size="4"><%= room.start_time_hour%>:<%= room.start_time_min %>에 보자!</font></span>
+										<div style ="font-family:Binggrae">
+											<span style="color:black" class ="col"><font style="font-family:Binggrae" size="4"><%= room.start_time_hour%>:<%= room.start_time_min %>에 보자!</font></span>
 											<div style="float:right;"><span><font size="5"><%= room.food_type %></font></span></div>
 										</div>
 									
-										<div class="Hashtag" style="font-family:Nanum Gothic Coding">
+										<div class="Hashtag" style="font-family:Binggrae">
 											<span>
 											<% room.tags.each do |tag| %>
 												<%= link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>
@@ -131,7 +131,7 @@
 	
 	function room_created(data){
 		$('.room_list').prepend(`	
-		<div class="style3" style= "font-family:Do Hyeon">
+		<div class="style3" style= "font-family:Binggrae">
 						<div class="col-sx-12">
 							<div class="imagebox style2">
 								<div class="container ">
@@ -139,15 +139,15 @@
 									  <div class="check${data.id}"
 										<div>
 											<a href ="/rooms/${data.id}" ><font size="5">${data.room_title}</font></a>
-											<span style="float:right;font-family:Do Hyeon"><font size="5"><span class="current${data.id}"> 1 </span> / ${data.max_count}</font></span>
+											<span style="float:right;font-family:Binggrae"><font size="5"><span class="current${data.id}"> 1 </span> / ${data.max_count}</font></span>
 										</div>
 										
-										<div style ="font-family:Do Hyeon">
-											<span style="color:black" class ="col"><font style="font-family:Do Hyeon" size="4">${data.start_time_hour} : ${data.start_time_min} 에 보자!</font></span>
+										<div style ="font-family:Binggrae">
+											<span style="color:black" class ="col"><font style="font-family:Binggrae" size="4">${data.start_time_hour} : ${data.start_time_min} 에 보자!</font></span>
 											<div style="float:right;"><span><font size="5">${data.food_type}</font></span></div>
 										</div>
 									
-										 <!--<div class="Hashtag" style="font-family:Nanum Gothic Coding">
+										 <!--<div class="Hashtag" style="font-family:Binggrae">
 										 	<span>
 										 	<%# @room.tags.each do |tag| %>
 										 		<%#= link_to "##{tag.name}", "/rooms/hashtags/#{tag.name}" %>

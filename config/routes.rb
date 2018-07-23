@@ -24,5 +24,5 @@ Rails.application.routes.draw do
   
   get '/quickmatch' => 'rooms#quickmatch'
   get '/matching'=>'rooms#matching'
-
+    
 end

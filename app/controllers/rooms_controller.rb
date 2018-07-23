@@ -141,19 +141,18 @@ class RoomsController < ApplicationController
  
   def chat
     @room_id = @room.id
-    p "으쌰"
     @room.chats.create(user_id: current_user.id, message: params[:message])
   end
  
   def open_chat
-     p "오픈챗 됬다."
    @room.update(room_state: true)
    @room.admissions.each do |admission|
       UserChatLog.create(room_title: @room.room_title, room_id: @room.id, user_id: admission.user_id, nickname: admission.user.nickname, chat_date: admission.updated_at.to_date )
    end
-   p "admission의 힘"
+
    Pusher.trigger("room_#{@room.id}", 'chat_start', {})
-   RoomDestroyJob.set(wait: 1.hours).perform_later(@room.id)
+  
+   RoomDestroyJob.set(wait: 1.hour).perform_later(@room.id) # 한시간 뒤에 방을 폭파하는 코드.
   end
  
   def hashtags
@@ -186,11 +185,19 @@ class RoomsController < ApplicationController
   def matching
     # 해당하는 방이 없을 때, alert를 띄우던지 아니면 해당하는 방이 없다는 화면으로 보내주던지...
     if !Room.where(room_type: "먹방").to_a[0].nil?
-      @rooms = Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[0].id 
-      # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬, 그후 id만 추출
-      redirect_to "/rooms/#{@rooms}"
+      match_num = 0
+      while match_num <= Room.where(room_type: "먹방").to_a.length
+        if Room.where(room_type: "먹방").order(:admissions_count).reverse[match_num].admissions_count < Room.where(room_type: "먹방").order(:admissions_count).reverse[match_num].max_count
+          @rooms = Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[match_num].id 
+          # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬, 그후 id만 추출
+          redirect_to "/rooms/#{@rooms}"
+          break
+        else
+          match_num += 1
+        end
+      end
     else
-      @no_match = "매칭되는 방이 없어요..."
+      render js: "alert('매칭되는 방이 없어요...');"
       redirect_to "/quickmatch"
     end  
   end
@@ -198,13 +205,14 @@ class RoomsController < ApplicationController
   def report
     @report = Report.new
   end
- 
- def report_create
-    p "신고받음"
-    @report = Report.create(report_reason: params[:report_reason], report_description: params[:report_description])
-    @report.user_id = current_user.id
-    @report.user_email = current_user.email
- end
+   
+  def report_create
+      p "신고받음"
+      @report = Report.create(report_reason: params[:report_reason], report_description: params[:report_description])
+      @report.user_id = current_user.id
+      @report.user_email = current_user.email
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

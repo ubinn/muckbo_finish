@@ -4,8 +4,8 @@
 					<div class="col-lg-2">
 					</div><!-- /.col-lg-2 -->
 					<div class="col-lg-4 col-sm-6">
-						<div class="login-form" style="font-family:Nanum Gothic Coding">
-							<h3 style="font-family:Nanum Gothic Coding">또 같이 먹으러가자!</h3>
+						<div class="login-form" style="font-family:Binggrae">
+							<h3 style="font-family:Binggrae">또 같이 먹으러가자!</h3>
 							<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 								<div class="wrap-login">
 									<label>이메일 주소 입력해주세요!</label>
@@ -19,7 +19,7 @@
 								 <% end -%>
 								<div class="wrap-login remember">
 									<a href="/users/sign_up" class="sign_up" title="" style="color: #ffffff;">가입하기</a>
-									<a href="/find_pw" class="forgot" title="">비밀번호를 잊으셨나요?</a>
+									<a href="/users/password/edit" class="forgot" title="">비밀번호를 잊으셨나요?</a>
 								</div>
 								<div class="btn-more" style="text-align: center;">
 									<button type ="submit" title="submit" style="color: #ffffff;">로그인</button>

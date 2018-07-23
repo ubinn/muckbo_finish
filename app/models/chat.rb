@@ -4,8 +4,8 @@ class Chat < ApplicationRecord
   
   after_commit :chat_message_notification, on: :create
  
- def chat_message_notification
-   Pusher.trigger("room_#{self.room_id}", "chat", self.as_json.merge({email: self.user.email}))
- end
+  def chat_message_notification
+    Pusher.trigger("room_#{self.room_id}", "chat", self.as_json.merge({email: self.user.email, nickname: self.user.nickname}))
+  end
   
 end

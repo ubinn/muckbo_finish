@@ -12,7 +12,6 @@
       <div class="chat-history">
         <ul>
           <% @room.chats.each do |chat| %>
-          
           <% unless chat.user_id == current_user.id %>
             <div class="message-data">
               <span class="message-data-name" style="margin-left: -40;"><%= chat.user.nickname%></span>
@@ -21,32 +20,41 @@
               <%= chat.message %>
             </div>
           
-            <% else %>
-              <div class="message-data align-right">
+          <% else %> 
+          <!-- 본인 -->
+            <div class="message-data align-right">
               <span class="message-data-name"><%= chat.user.nickname%></span>
-              
             </div>
             <div class="message other-message" style="text-align:right; width: 100%; padding-right:20px;" >
               <%= chat.message %>
             </div>
-            <% end %>
+          <% end %>
             
-            <% end %>
+          <% end %>
             
           </div> <!-- end chat-history -->
       <div class="chat-message navbar-fixed-bottom">
         <form action="/rooms/<%=@room.id%>/chat">
-          <textarea name="message" id="message" placeholder ="Type your message" color="black" rows="2"></textarea>     
-        <button>Send</button>
+          <!--<textarea name="message" id="message" placeholder ="Type your message" color="black" rows="2"></textarea>     -->
+          <%= text_area_tag 'message', nil, placeholder:'메세지를 입력하세요'%>
+        <button class="submit">Send</button>
       </div> <!-- end chat-message -->
       </div>
       </div>
       </div>
       </div>
+      
 <%= javascript_include_tag "chat" %>
 
 
 <script>
+
+  history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+ 
+    
   $('#message').val('');
  
  
@@ -60,9 +68,9 @@
       $('.chat-history').append(`<div class="message-data">
         <span class="message-data-name">${data.nickname}</span>
         </div>
-        <div class="message my-message" style="width: 100%; padding-left: 20px; left:-10;">
-        ${data.message}</div>`)
+        <div class="message my-message" style="width: 100%; padding-left: 20px; left:-10;">${data.message}</div>`)
   }
+  
    var pusher = new Pusher("<%= ENV["Pusher_key"]%>", {
     cluster: "<%= ENV["Pusher_cluster"] %>",
     encrypted: true
@@ -73,13 +81,17 @@
   //var nickname = <1%= current_user.nickname %>
  
   channel.bind('chat', function(data){
+
     if (current_user == data.user_id){
-       user_chat(data);
-       console.log("채팅중입니다.")
+      user_chat(data);
+      console.log("채팅중입니다.")
     }
     else{
-       another_user_chat(data);
-       console.log("채팅중입니다.")
+      another_user_chat(data);
+      console.log("채팅중입니다.")
+
     }
   });
+  
+
 </script>

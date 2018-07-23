@@ -2,14 +2,6 @@
   
   var chat = {
     messageToSend: '',
-    messageResponses: [
-      'Why did the web developer leave the restaurant? Because of the table layout.',
-      'How do you comfort a JavaScript bug? You console it.',
-      'An SQL query enters a bar, approaches two tables and asks: "May I join you?"',
-      'What is the most used language in programming? Profanity.',
-      'What is the object-oriented way to become wealthy? Inheritance.',
-      'An SEO expert walks into a bar, bars, pub, tavern, public house, Irish pub, drinks, beer, alcohol'
-    ],
     
     init: function() {
       this.cacheDOM();
@@ -26,8 +18,9 @@
     
     bindEvents: function() {
       this.$button.on('click', this.addMessage.bind(this));
-      this.$textarea.on('keyup', this.addMessageEnter.bind(this));
+      this.$textarea.on('keypress', this.addMessageEnter.bind(this));
     },
+    
     render: function() {
       this.scrollToBottom();
       if (this.messageToSend.trim() !== '') {

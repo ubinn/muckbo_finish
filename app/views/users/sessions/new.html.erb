@@ -4,8 +4,8 @@
 					<div class="col-lg-2">
 					</div><!-- /.col-lg-2 -->
 					<div class="col-lg-4 col-sm-6">
-						<div class="login-form" style="font-family:Nanum Gothic Coding">
-							<h3 style="font-family:Nanum Gothic Coding">또 같이 먹으러가자!</h3>
+						<div class="login-form" style="font-family:Binggrae">
+							<h3 style="font-family:Binggrae">또 같이 먹으러가자!</h3>
 							<!--<form action="/users/sign_in" method="get" accept-charset="utf-8">-->
 							<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 								<div class="wrap-login">
@@ -18,7 +18,7 @@
 								</div>
 								<div class="wrap-login remember">
 									<a href="/users/sign_up" class="sign_up" title="" style="color: #ffffff;">가입하기</a>
-									<a href="/find_pw" class="forgot" title="">비밀번호를 잊으셨나요?</a>
+									<a href="/users/password/new" class="forgot" title="">비밀번호를 잊으셨나요?</a>
 								</div>		
 								<br>
 								<% flash.each do |key, message| %>
@@ -38,3 +38,8 @@
 			</div><!-- /.container -->
 			<div class="overlay"></div>
 		</section><!-- /.flat-login -->
+		<% content_for 'javascript_content' do %>
+<%= javascript_include_tag params[:controller] %>
+<script src="/assets/main.self-6e0e50eaf3a38a484fb47e4afcc0da5e49892448e6731870d30cdda1b1b720fd.js?body=1"></script>
+<% end %>
+		
