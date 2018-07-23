@@ -7,8 +7,6 @@ class CreateUserChatLogs < ActiveRecord::Migration[5.0]
       t.string :nickname
       t.date :chat_date
       
-      
-      
       t.timestamps
     end
   end

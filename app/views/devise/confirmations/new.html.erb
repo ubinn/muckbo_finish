@@ -1,16 +1,31 @@
-<h2>Resend confirmation instructions</h2>
+ <div class="container">
+               <div class="row">
+                   <div class="col-lg-2">
+                   </div><!-- /.col-lg-2 -->
+                   <div class="col-lg-4 col-sm-6">
+                       <div class="login-form" style="font-family:Binggrae">
+                         
+<h3 style="font-family:Binggrae">인증메일 발송</h3>
 
 <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= f.error_notification %>
-  <%= f.full_error :confirmation_token %>
 
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
-  </div>
+ <div class="wrap-login">
+ <div class="form-inputs">
+   <%= f.input :email, required: true, autofocus: true %>
+ </div>
+ </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Resend confirmation instructions" %>
-  </div>
+ <div class="wrap-login">
+ <div class="form-actions">
+   <%= f.button :submit, "인증다시하기" %>
+ </div>
+ </div>
 <% end %>
-
-<%= render "devise/shared/links" %>
+                       </div><!-- /.login-form -->
+                   </div><!-- /.col-lg-4 -->
+                   <div class="col-lg-1">
+                   </div><!-- /.col-lg-1 -->
+               </div><!-- /.row -->
+           </div><!-- /.container -->
+           <div class="overlay"></div>
+       </section><!-- /.flat-login -->

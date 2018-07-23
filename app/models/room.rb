@@ -77,8 +77,5 @@ class Room < ApplicationRecord
  end
 
 
- paginates_per 3
-
-
 
 end
