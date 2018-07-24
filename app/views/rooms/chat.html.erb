@@ -37,7 +37,7 @@
         <form action="/rooms/<%=@room.id%>/chat">
           <!--<textarea name="message" id="message" placeholder ="Type your message" color="black" rows="2"></textarea>     -->
           <%= text_area_tag 'message', nil, placeholder:'메세지를 입력하세요'%>
-        <button class="submit">Send</button>
+        <button class="submit" id="submit">Send</button>
       </div> <!-- end chat-message -->
       </div>
       </div>
@@ -57,7 +57,14 @@
     
   $('#message').val('');
  
- 
+  $('#message').keypress(function(e) { 
+     if(e.which == 13) { 
+        $(this).blur();
+        $('#submit').focus().click();
+     }
+  });
+  
+  
   function user_chat(data){
       $('.chat-history').append(`<div class="message-data align-right">
           <span class="message-data-name" >${data.nickname}</span></div>

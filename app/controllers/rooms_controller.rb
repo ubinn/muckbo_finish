@@ -188,12 +188,11 @@ class RoomsController < ApplicationController
       match_num = 0
       if Room.where(room_type: "먹방").size > 1
         while match_num < Room.where(room_type: "먹방").to_a.length
-          p Room.where(room_type: "먹방")
           if Room.where(room_type: "먹방").order(admissions_count: :desc)[match_num].admissions_count < Room.where(room_type: "먹방").order(admissions_count: :desc)[match_num].max_count
             @rooms = Room.where(room_type: "먹방").order(:admissions_count).reverse.sort[match_num].id 
             # 룸타입이 먹방인 방에서, 현재 인원의 역순으로 정렬후, 인덱스에 따라서 다시 정렬, 그후 id만 추출
             redirect_to "/rooms/#{@rooms}"
-            breaK;
+          break
           else
             match_num += 1
           end

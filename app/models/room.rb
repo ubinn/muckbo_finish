@@ -6,9 +6,10 @@ class Room < ApplicationRecord
     has_and_belongs_to_many :tags
     
     
-    
+    # after_commit 콜백은 1개의 트랜잭션에서 발생한 어떤 모델의 생성, 갱신, 삭제 뒤에 호출됩니다. 
+    # 이 콜백들 중 어떤 것 하나라도 예외를 발생시키면, 실행되지 않은 나머지 콜백들은 실행되지 않습니다. 
     after_commit :create_room_notification, on: :create
-    after_commit :scan_hashtag_from_body, on: :create
+    after_commit :scan_hashtag_from_body, on: :create 
     after_commit :update_hashtag_from_body, on: :update
     
  def create_room_notification
@@ -57,7 +58,7 @@ class Room < ApplicationRecord
    room = Room.find_by(id: self.id)
      hashtags = self.hashtag.split('#')
      transaction do
-        hashtags[1..-1].map do |hashtag|
+        hashtags[1..-1].map do |hashtag| # hashtags에서 #(0)을 제외한 1~끝까지(-1) 모두 한글자 한글자 마다 반복문을 돌린다.
             next if self.tags.where(name: hashtag).first
             tag = Tag.find_or_create_by(name: hashtag.downcase.strip)
             RoomsTag.create(room_id: self.id, tag_id: tag.id)
