@@ -12,6 +12,7 @@ class Room < ApplicationRecord
     after_commit :scan_hashtag_from_body, on: :create 
     after_commit :update_hashtag_from_body, on: :update
     
+    
  def create_room_notification
     # 방만들었을때 index에서 방리스트에 append 해주는 트리거
     Pusher.trigger('room','create',self.as_json)
@@ -29,16 +30,19 @@ class Room < ApplicationRecord
      Admission.where(user_id: user.id, room_id: self.id)[0].destroy
      p "방 폭파조건"
      Room.where(id: self.id)[0].destroy
+     Pusher.trigger('room','delete',self.as_json) ## 추가 1130
    else #방장여부 판별
      if (@thisR.master_id == user.email)
        p "if 문 들어옴"
        p @someone = User.find(@thisR.admissions.sample.user_id).email
        @thisR.update(master_id: @someone)
      end
-     p @thisR.admissions.count
-     p "방 사람들 수"
+
      p @thisR.master_id
      Admission.where(user_id: user.id, room_id: self.id)[0].destroy
+     p @thisR.admissions.count
+     p "방 사람들 수"   
+   
    end
  end
 

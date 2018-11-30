@@ -49,8 +49,6 @@ class RoomsController < ApplicationController
    @room = Room.new(room_params)
    @room.master_id = current_user.email
    
-
-   
    respond_to do |format|
       if @room.save
        @room.user_admit_room(current_user) #room.rb
